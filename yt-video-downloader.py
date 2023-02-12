@@ -1,51 +1,50 @@
+from colorama import Fore, Style
+from datetime import datetime
 from pytube import YouTube
 from pathlib import Path
-from datetime import datetime
-from colorama import Fore, Style
+import pandas as pd
 import os
 
 # URL de ejemplo:
 # https://www.youtube.com/watch?v=j5h6ucwQklw
 link = input("Ingresa la URL: ")
-subdir = input("Ingresa el nombre del subdirectorio: ")
-
+subdir = input("Ingresa el nombre de la carpeta: ")
 yt = YouTube(link)
-print(Fore.GREEN + "Descargando...")
-title = yt.title
 
+print("Titulo del video: {} ".format(yt.title))
+
+""" ===================================================== """
+""" Get video streams (information) from the video """
+""" resolution, 60fps """
+video_itag = yt.streams.filter(resolution="1080p")
+print(video_itag)
 print("")
-print("Detalles del video")
-print("Titulo: {} ".format(title))
+video_itag = input("Ingresa el itag: ")
+video = yt.streams.get_by_itag(video_itag)
 
-###
-#
-video = yt.streams.get_by_itag(itag=299)
-# video = yt.streams.get_highest_resolution()
+print("====================================================")
 
-###
-#
-# audio = yt.streams.get_by_itag(itag=251)
-audio = yt.streams.get_audio_only()
+""" ===================================================== """
+""" Get audio streams (information) from the video """
+audio_selected = yt.streams.filter(type="audio")
+print(audio_selected)
+print("")
+audio_itag = input("Ingresa el itag: ")
+audio = yt.streams.get_by_itag(audio_itag)
+""" ===================================================== """
 
-###
-# HomePath = Videos
-# Subdirectories = /YT-Download/{subdir}
 path = 'Videos\YT-Download\{}'.format(subdir)
-
-###
-# Folder
 folder = str(os.path.join(Path.home(), path))
+print("====================================================")
 
-###
-#
 try:
-    video.download(folder,None, 'Video-')
-    audio.download(folder,None, 'Audio-')
+    print("Descargando...")
+    video.download(folder , None , 'VIDEO-')
+    audio.download(folder , None , 'AUDIO-')
+    print("====================================================")
     print("Descarga completada!")
-    print(Style.RESET_ALL)    
 except:
-    print(Fore.RED + "Error:")
-    print(Fore.RED + "+ itags no encontrados intentar descargar el video y audio.")
-    print(Fore.RED + "+ Verifica los itag disponibles en cada video y acomodalo a gusto")
-    print(Fore.GREEN + "-> Documentacion oficial:  https://pytube.io/en/latest/user/streams.html#filtering-streams")
-    print(Style.RESET_ALL)
+    print("Error:")
+    print("Itags no encontrados intentar descargar el video y audio.")
+    print("Verifica los itag disponibles en el video y seleccionalo a gusto")
+    print("=> Documentacion oficial: https://pytube.io/en/latest/user/streams.html#filtering-streams")
