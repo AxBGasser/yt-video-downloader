@@ -1,2 +1,3 @@
 # yt-video-downloader
-Script sencillo para descargar videos y audio de youtube con pytube
+##### Script to download video and audio from YT using pytube.
+~ Use a format converter for the video.

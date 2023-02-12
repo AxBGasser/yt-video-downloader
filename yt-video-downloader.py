@@ -9,15 +9,17 @@ import os
 # https://www.youtube.com/watch?v=j5h6ucwQklw
 link = input("Ingresa la URL: ")
 subdir = input("Ingresa el nombre de la carpeta: ")
+
 yt = YouTube(link)
+
 
 print("Titulo del video: {} ".format(yt.title))
 
 """ ===================================================== """
 """ Get video streams (information) from the video """
 """ resolution, 60fps """
-video_itag = yt.streams.filter(resolution="1080p")
-print(video_itag)
+video_selected = yt.streams.filter(resolution="1080p")
+print(video_selected)
 print("")
 video_itag = input("Ingresa el itag: ")
 video = yt.streams.get_by_itag(video_itag)
@@ -45,6 +47,6 @@ try:
     print("Descarga completada!")
 except:
     print("Error:")
-    print("Itags no encontrados intentar descargar el video y audio.")
+    print("Itags no encontrados intentar descargar el video o audio.")
     print("Verifica los itag disponibles en el video y seleccionalo a gusto")
     print("=> Documentacion oficial: https://pytube.io/en/latest/user/streams.html#filtering-streams")
